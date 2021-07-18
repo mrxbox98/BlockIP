@@ -35,6 +35,10 @@ public class ChatListener implements Listener {
         {
             return false;
         }
+        catch(Error e)
+        {
+            return false;
+        }
     }
 
     public String[] split(String str)
