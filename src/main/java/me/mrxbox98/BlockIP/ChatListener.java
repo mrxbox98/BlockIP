@@ -9,23 +9,54 @@ public class ChatListener implements Listener {
     @EventHandler
     public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent event)
     {
-        String[] pi = event.getMessage().split(".");
-        if(pi.length<4)
+        if(hasIP(event.getMessage()))
         {
-            return;
+            event.setCancelled(true);
+        }
+
+    }
+
+    public boolean hasIP(String str)
+    {
+        String[] pi = split(str);
+        if(pi.length<3)
+        {
+            return false;
         }
         try
         {
             for(int i=0;i<4;i++)
             {
-                int t = Integer.parseInt(pi[i]);
+                Integer.parseInt(pi[i]);
             }
-            event.setCancelled(true);
+            return true;
         }
-        catch(Error e)
+        catch(Exception e)
         {
-            return;
+            return false;
         }
+    }
+
+    public String[] split(String str)
+    {
+        int count=0;
+        for(int i=0;i<str.length();i++)
+        {
+            if(str.charAt(i)=='.')
+            {
+                count++;
+            }
+        }
+        int bi=0;
+        int ei=0;
+        String[] arr = new String[count];
+        for(int i=0;i<count;i++)
+        {
+            ei=str.indexOf(".");
+            arr[i]=str.substring(bi,ei);
+            str=str.substring(ei+1);
+        }
+        return arr;
     }
 
 }
